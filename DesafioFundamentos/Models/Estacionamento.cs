@@ -17,6 +17,32 @@ namespace DesafioFundamentos.Models
             // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
             // *IMPLEMENTE AQUI*
             Console.WriteLine("Digite a placa do veículo para estacionar:");
+            string placa = Console.ReadLine().ToUpper(); // CONVERTER TUDO PARA MAIÚSCULA
+
+            //REMOVER CARACTERES ADICIONADOS PELO UTILIZADOR 
+            placa = placa.Replace("-", "");
+
+            // VERIFICAR SE A MATRÍCULA ADICIONADO PELO UTILIZADOR POSSUÍ MAIS DE 6 CARACTERES
+            if (placa.Length <= 6)
+            {
+                // INSERIR "-" NAS POSIÇÕES PARA GARANTIR O FORMATO 00-AA-00
+                if (placa.Length >= 3)
+                {
+                    placa = placa.Insert(2, "-");
+                    if (placa.Length == 7)
+                    {
+                        placa = placa.Insert(5, "-");
+                    }
+                }
+
+                // ADICIONAR A MATRÍCULA NA LIST VEÍCULOS
+                veiculos.Add(placa);
+            }
+            else
+            {
+                Console.WriteLine("Matrícula inválida. Por favor insira uma matrícula válida, com o máximo de 6 caracteres.");
+            }
+
         }
 
         public void RemoverVeiculo()
@@ -25,7 +51,28 @@ namespace DesafioFundamentos.Models
 
             // Pedir para o usuário digitar a placa e armazenar na variável placa
             // *IMPLEMENTE AQUI*
-            string placa = "";
+            string placa = Console.ReadLine().ToUpper();
+
+            //REMOVER CARACTERES ADICIONADOS PELO UTILIZADOR 
+            placa = placa.Replace("-", "");
+
+            // VERIFICAR SE A MATRÍCULA ADICIONADO PELO UTILIZADOR POSSUÍ MAIS DE 6 CARACTERES
+            if (placa.Length <= 6)
+            {
+                // INSERIR "-" NAS POSIÇÕES PARA GARANTIR O FORMATO 00-AA-00
+                if (placa.Length >= 3)
+                {
+                    placa = placa.Insert(2, "-");
+                    if (placa.Length == 7)
+                    {
+                        placa = placa.Insert(5, "-");
+                    }
+                }
+            }
+            else
+            {
+              Console.WriteLine("Matrícula inválida. Por favor insira uma matrícula válida, com o máximo de 6 caracteres.");
+            }
 
             // Verifica se o veículo existe
             if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
@@ -35,13 +82,18 @@ namespace DesafioFundamentos.Models
                 // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
                 // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
                 // *IMPLEMENTE AQUI*
-                int horas = 0;
-                decimal valorTotal = 0; 
+                if (int.TryParse(Console.ReadLine(), out int horas))
+                {
+                    decimal valorTotal = precoInicial + precoPorHora * horas;
 
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
+                    // TODO: Remover a placa digitada da lista de veículos
+                    // *IMPLEMENTE AQUI*
+                    veiculos.Remove(placa);
 
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                    Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+
+                }
+
             }
             else
             {
@@ -57,6 +109,11 @@ namespace DesafioFundamentos.Models
                 Console.WriteLine("Os veículos estacionados são:");
                 // TODO: Realizar um laço de repetição, exibindo os veículos estacionados
                 // *IMPLEMENTE AQUI*
+                foreach (var veiculo in veiculos)
+                {
+                    Console.WriteLine(veiculo);
+                }
+            
             }
             else
             {
